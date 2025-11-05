@@ -7,6 +7,9 @@ import ResetPassword from './components/ResetPassword.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import EditorInicio from './pages/EditorInicio.jsx';
 import EditorBlog from './pages/EditorBlog.jsx';
+import EditorArtista from './pages/EditorArtista.jsx';
+import EditorEscritor from './pages/EditorEscritor.jsx';
+import EditorFotografo from './pages/EditorFotografo.jsx';
 
 function App() {
   return (
@@ -22,6 +25,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
   <Route path="/editor/inicio" element={<EditorInicio />} />
   <Route path="/editor/blog" element={<EditorBlog />} />
+        <Route path="/editor/inicio" element={<EditorInicio />} />
+        <Route path="/editor/artista" element={<EditorArtista />} />
+        <Route path="/editor/escritor" element={<EditorEscritor />} />
+        <Route path="/editor/fotografo" element={<EditorFotografo />} />
       </Routes>
     </div>
   );

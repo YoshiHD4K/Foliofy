@@ -37,7 +37,15 @@ const Dashboard = () => {
 
   const goNext = () => {
     if (!selectedRole) return; // Safety
-  navigate('/editor/inicio');
+    const routeByRole = {
+      artist: '/editor/artista',
+      writer: '/editor/escritor',
+      photographer: '/editor/fotografo',
+      // diseñador u otros caen al inicio genérico
+      designer: '/editor/inicio',
+    };
+    const target = routeByRole[selectedRole] || '/editor/inicio';
+    navigate(target);
   };
 
   if (loading) {

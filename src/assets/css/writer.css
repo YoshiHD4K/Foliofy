@@ -1,0 +1,63 @@
+:root{
+  /* Los valores por defecto se sobrescriben desde el componente con onConfigChange */
+  --photo-bg:#f4efe6;
+  --photo-fg:#1a1a1a;
+  --photo-accent:#6b4f2a;     /* botón principal */
+  --photo-accent-2:#b08968;   /* etiqueta/acento suave */
+  --photo-text-xl:56px;
+  --photo-text-md:18px;
+}
+
+.photo-page{ min-height:100vh; background: var(--photo-bg); color: var(--photo-fg); overflow-x:hidden; }
+
+/* Carta de presentación */
+.photo-card{
+  width:100vw; margin:0; padding:48px 0; min-height: calc(100vh - 56px);
+  display:flex; align-items:center; justify-content:center;
+}
+.photo-card__inner{
+  width:min(1200px, 100%);
+  display:grid; grid-template-columns: 1.2fr 0.8fr; gap:32px; align-items:center;
+  padding:0 16px;
+}
+
+.photo-visual{ position:relative; min-height: calc(100vh - 56px - 96px); }
+/* Nueva composición: pluma y tintero */
+.quill-img{
+  position:absolute; left:50%; top:50%; transform: translate(-50%, -50%) rotate(-8deg);
+  width:auto; height:115%; max-height:none;
+  display:block; margin:0; object-fit:contain; pointer-events:none;
+  filter: sepia(.25) saturate(.8) contrast(.95) drop-shadow(0 20px 40px rgba(0,0,0,.12));
+  opacity:.28; z-index:1;
+}
+.inkwell-img{
+  position:absolute; right:6%; bottom:8%;
+  width:220px; height:auto; object-fit:contain; pointer-events:none;
+  filter: saturate(.75) contrast(.95) drop-shadow(0 16px 30px rgba(0,0,0,.18));
+  opacity:.9; z-index:2;
+}
+
+.photo-info{ display:block; }
+.photo-tag{
+  display:inline-block; font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:12px;
+  color:#1f2937; background: var(--photo-accent-2); padding:6px 10px; border-radius:999px;
+}
+.photo-name{ font-size: var(--photo-text-xl); margin:10px 0 12px; letter-spacing:-0.01em; line-height:1.05; }
+.photo-meta{ list-style:none; padding:0; margin:0 0 16px; display:grid; gap:6px; opacity:.9; }
+
+.photo-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:center; }
+.photo-btn{ background: var(--photo-accent); color:#fff; border:none; padding:10px 16px; border-radius:12px; font-weight:800; cursor:pointer; }
+.photo-btn--ghost{ background:transparent; color: var(--photo-fg); border:1px solid rgba(0,0,0,.2); }
+
+@media (max-width: 960px){
+  .photo-card__inner{ grid-template-columns:1fr; }
+  .photo-visual{ min-height: calc(100vh - 56px - 96px); }
+  .quill-img{ height:125%; }
+  .inkwell-img{ width:180px; }
+}
+
+@media (max-width: 560px){
+  .quill-img{ height:130%; }
+  .inkwell-img{ width:140px; }
+  .photo-name{ font-size: 36px; }
+}
