@@ -46,7 +46,8 @@ body {
 }
 
 .logo-section {
-  margin-bottom: 25px; /* Ajustado */
+  margin-bottom: 0px; /* Ajustado */
+  max-height: 30%;
 }
 
 .logo {
@@ -292,4 +293,20 @@ body {
   .decorative-panel {
     display: none; 
   }
+}
+
+/* Imagen de logo en el formulario */
+.auth-logo {
+  width: 200px;
+  height: 200px;
+  max-width: 60%;
+  height: auto;
+  display: block;
+  /* Evitar selección/arrastre del logo */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  margin: 0 auto;
 }

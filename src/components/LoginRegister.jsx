@@ -88,9 +88,10 @@ const LoginRegister = () => {
       <div className="login-box">
         {/* Panel izquierdo con formulario */}
         <div className="auth-panel">
+          <div className="logo-section">
+            <img src="/images/logo_foliofy.png" alt="Foliofy" className="auth-logo" draggable="false" />
+          </div>
           <h1 className="auth-title">{isLogin ? 'Iniciar sesión' : 'Crear cuenta'}</h1>
-
-          {/* Botón de Google eliminado */}
 
           <form className="auth-form" onSubmit={handleSubmit}>
             {/* Campo de Email */}

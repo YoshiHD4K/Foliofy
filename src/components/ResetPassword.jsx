@@ -59,6 +59,9 @@ const ResetPassword = () => {
     <div className="main-container">
       <div className="login-box">
         <div className="auth-panel">
+          <div className="logo-section">
+            <img src="/images/logo_foliofy.png" alt="Foliofy" className="auth-logo" draggable="false" />
+          </div>
           <h1 className="auth-title">Restablecer contraseña</h1>
           {!canReset && (
             <p style={{ marginBottom: 12, color: '#888' }}>
