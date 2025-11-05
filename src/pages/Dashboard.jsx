@@ -35,6 +35,11 @@ const Dashboard = () => {
     navigate('/');
   };
 
+  const goNext = () => {
+    if (!selectedRole) return; // Safety
+  navigate('/editor/inicio');
+  };
+
   if (loading) {
     return (
       <div className="main-container"><div className="login-box"><div className="auth-panel"><p>Cargando...</p></div></div></div>
@@ -64,7 +69,7 @@ const Dashboard = () => {
               <button
                 className="submit-button btn-compact"
                 type="button"
-                onClick={() => toast.success(`Siguiente: ${selectedRole}`)}
+                onClick={goNext}
                 style={{ flex: '0 0 auto', minWidth: 140 }}
                 disabled={!selectedRole}
               >
