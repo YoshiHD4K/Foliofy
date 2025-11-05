@@ -4,7 +4,10 @@
   "description": "Proyecto para Ingenieria de Software",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind:watch": "./node_modules/.bin/tailwindcss.cmd -i ./src/css/input.css -o ./dist/output.css --watch",
+    "server:start": "node index.js",
+    "dev": "concurrently \"npm run tailwind:watch\" \"npm run server:start\""
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,11 @@
   "homepage": "https://github.com/YoshiHD4K/Foliofy#readme",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.16"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
