@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../assets/css/inicio.css'; 
 
 export default function EditorInicio() {
+  const navigate = useNavigate();
   const headerBtnStyle = {
     background: 'none',
     border: 'none',
@@ -105,7 +107,7 @@ export default function EditorInicio() {
         }}
       >
         <button type="button" style={headerBtnStyle}>Inicio</button>
-        <button type="button" style={headerBtnStyle}>Blog</button>
+  <button type="button" style={headerBtnStyle} onClick={() => navigate('/editor/blog')}>Blog</button>
         <button type="button" style={headerBtnStyle}>Proyectos</button>
       </div>
 

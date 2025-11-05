@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import ResetPassword from './components/ResetPassword.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import EditorInicio from './pages/EditorInicio.jsx';
+import EditorBlog from './pages/EditorBlog.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/reset" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
   <Route path="/editor/inicio" element={<EditorInicio />} />
+  <Route path="/editor/blog" element={<EditorBlog />} />
       </Routes>
     </div>
   );

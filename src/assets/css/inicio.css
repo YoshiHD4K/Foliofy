@@ -140,7 +140,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-action-color);
+  background: linear-gradient(to right, #CA09BC, #7C27C2, #3A41C6);
   color: #ffffff;
   border: none;
   cursor: pointer;
