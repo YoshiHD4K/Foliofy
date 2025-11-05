@@ -13,11 +13,11 @@ const Dashboard = () => {
       const { data } = await supabase.auth.getUser();
       const user = data?.user;
       if (!user) {
-        toast('Inicia sesión para continuar', { icon: '🔒' });
-        navigate('/');
-        return;
+        // Fallback temporal: datos genéricos si no hay sesión
+        setEmail('Invitado');
+      } else {
+        setEmail(user.email || 'Usuario');
       }
-      setEmail(user.email || 'Usuario');
       setLoading(false);
     };
     load();
