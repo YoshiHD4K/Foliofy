@@ -1,0 +1,24 @@
+/* Botón compacto: reduce altura y padding */
+.btn-compact {
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+	line-height: 1.1;
+	border-radius: 8px;
+}
+
+/* Estado deshabilitado para submit-button */
+.submit-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	filter: grayscale(20%);
+}
+
+/* Cerrar sesión al fondo del panel derecho */
+.logout-bottom {
+	position: absolute;
+	bottom: 20px;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+}

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { supabase } from '../lib/supabaseClient';
+import RoleSelector from '../components/RoleSelector';
+import '../assets/css/Dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
+  const [selectedRole, setSelectedRole] = useState(null);
 
   useEffect(() => {
     const load = async () => {
@@ -41,17 +44,39 @@ const Dashboard = () => {
   return (
     <div className="main-container">
       <div className="login-box">
+        {/* Panel izquierdo: Selector 2x2 */}
         <div className="auth-panel">
-          <h1 className="auth-title">Bienvenido</h1>
-          <p style={{ marginBottom: 16 }}>Has iniciado sesión como <strong>{email}</strong>.</p>
-          <button className="submit-button" onClick={handleLogout}>Cerrar sesión</button>
+          <p style={{ marginTop: 0, color: '#6b7280' }}>Selecciona tu rol para continuar</p>
+          <RoleSelector
+            showNext={false}
+            onSelect={(role) => {
+              setSelectedRole(role);
+              console.log('Rol seleccionado:', role);
+            }}
+          />
         </div>
-        <div className="decorative-panel">
-          <h2 className="decorative-text">Tu espacio para crear</h2>
-          <div className="abstract-shape shape-a"></div>
-          <div className="abstract-shape shape-b"></div>
-          <div className="abstract-shape shape-c"></div>
-          <div className="abstract-shape shape-d"></div>
+        {/* Panel derecho: Hola invitado, Siguiente y Cerrar sesión */}
+        <div className="decorative-panel" style={{ position: 'relative' }}>
+          <div style={{ width: '100%', maxWidth: 420 }}>
+            <h1 style={{ marginTop: 0, marginBottom: 12 }}>Hola, {email || 'Invitado'}</h1>
+            <p style={{ marginTop: 0, color: '#6b7280' }}>Cuando estés listo, continúa.</p>
+            <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+              <button
+                className="submit-button btn-compact"
+                type="button"
+                onClick={() => toast.success(`Siguiente: ${selectedRole}`)}
+                style={{ flex: '0 0 auto', minWidth: 140 }}
+                disabled={!selectedRole}
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+          <div className="logout-bottom">
+            <button onClick={handleLogout} className="link-button" type="button">
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
     </div>
