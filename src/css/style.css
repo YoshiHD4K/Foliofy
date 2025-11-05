@@ -1,0 +1,233 @@
+/* Importar la fuente (Montserrat para un toque moderno y elegante) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+    --color-background-main: #1A1A1A; /* Fondo principal oscuro */
+    --color-panel-background: #2C2C2C; /* Fondo del formulario/panel */
+    --color-text-main: #F0F0F0; /* Texto principal blanco suave */
+    --color-accent: #A87C5E; /* Acento Terracota/Marrón suave */
+    --color-input-bg: #3C3C3C; /* Fondo de inputs */
+    --color-text-light: #B0B0B0; /* Texto secundario/labels */
+}
+
+/* Estilos Globales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-background-main);
+    color: var(--color-text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 900px;
+    max-width: 90%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Panel Lateral (Visual para Artistas) --- */
+.side-panel {
+    background-color: var(--color-panel-background);
+    padding: 40px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    border-right: 3px solid var(--color-accent); /* Borde como acento */
+}
+
+.side-panel h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--color-accent);
+}
+
+.side-panel p {
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-text-light);
+}
+
+.logo-placeholder {
+    font-size: 1.5rem;
+    font-weight: 700;
+    opacity: 0.5;
+    letter-spacing: 2px;
+}
+
+
+/* --- Panel de Formularios --- */
+.form-panel {
+    background-color: var(--color-background-main);
+    padding: 40px 50px;
+    width: 60%;
+}
+
+.form-panel h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Toggle Buttons */
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--color-input-bg);
+}
+
+.toggle-buttons button {
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.toggle-buttons button:hover {
+    color: var(--color-text-main);
+}
+
+.toggle-buttons button.active {
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+    font-weight: 600;
+}
+
+/* Formularios */
+.auth-form {
+    transition: opacity 0.4s ease-in-out;
+}
+
+.auth-form.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-bg);
+    border-radius: 6px;
+    color: var(--color-text-main);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+/* Botón de Submit */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-accent);
+    color: var(--color-background-main); /* Texto oscuro para contraste */
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.submit-btn:hover {
+    background-color: #C09A7A; /* Tono un poco más claro al pasar el mouse */
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
+/* Pie de formulario (solo para Login) */
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.form-footer .submit-btn {
+    width: auto;
+    padding: 10px 25px;
+    margin-top: 0;
+}
+
+.forgot-password {
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: var(--color-accent);
+}
+
+/* Responsividad básica */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .side-panel {
+        width: 100%;
+        text-align: center;
+        border-right: none;
+        border-bottom: 3px solid var(--color-accent);
+        padding: 30px;
+    }
+
+    .form-panel {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-footer .submit-btn {
+        width: 100%;
+    }
+}
