@@ -1,11 +1,11 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #213547;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +13,29 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ELIMINAR CUALQUIER MARGEN Y PADDING POR DEFECTO */
+body {
+  margin: 0;
+  padding: 0; /* Asegurar no padding en body */
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  overflow-x: hidden; /* CLAVE: Eliminar el scrollbar horizontal */
+}
+
+/* Asegurar que el contenedor principal de React ocupe todo el espacio */
+#root {
+  width: 100%;
+  height: 100vh; 
+  margin: 0;
+  padding: 0;
+  display: flex; 
+  justify-content: center; /* Asegurar que el contenido dentro de App esté centrado */
+  align-items: center;
+}
+
+/* ... el resto de tus estilos globales ... */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,19 +45,11 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
+/* ... etc ... */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
