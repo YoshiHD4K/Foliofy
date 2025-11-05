@@ -1,3 +1,4 @@
+// js/auth.js
 document.addEventListener('DOMContentLoaded', () => {
     const loginTab = document.getElementById('login-tab');
     const registerTab = document.getElementById('register-tab');
@@ -9,13 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
         
-        // Usar setTimeout para manejar la transición de opacidad
+        // Ocultar registro y mostrar login con transición
         registerForm.classList.add('hidden');
         setTimeout(() => {
             loginForm.style.display = 'block';
             loginForm.classList.remove('hidden');
             registerForm.style.display = 'none';
-        }, 100); // Pequeña espera para ocultar el otro
+        }, 300); // Coincide con la duración de la transición en CSS
     };
 
     // Función para mostrar el formulario de Registro
@@ -23,35 +24,34 @@ document.addEventListener('DOMContentLoaded', () => {
         registerTab.classList.add('active');
         loginTab.classList.remove('active');
         
+        // Ocultar login y mostrar registro con transición
         loginForm.classList.add('hidden');
         setTimeout(() => {
             registerForm.style.display = 'block';
             registerForm.classList.remove('hidden');
             loginForm.style.display = 'none';
-        }, 100);
+        }, 300); // Coincide con la duración de la transición en CSS
     };
 
     // Asignar eventos a los botones
     loginTab.addEventListener('click', showLoginForm);
     registerTab.addEventListener('click', showRegisterForm);
 
-    // Inicializar para asegurar que el Login se muestre por defecto
+    // Asegurarse de que el formulario de Login esté activo al cargar
     showLoginForm();
 
-    // Notas:
-    // Aquí es donde se añadiría la lógica de validación de formularios
-    // y la comunicación con el backend (API) usando fetch o AJAX.
-    
-    // Ejemplo de cómo manejar el submit (evitar el envío por defecto):
+    // --- Aquí iría la lógica de validación y envío de formularios ---
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('Login intentado.');
-        // Lógica de autenticación iría aquí
+        console.log('Intento de inicio de sesión...');
+        // Por ejemplo: enviar datos a un API con fetch()
+        alert('Inicio de sesión simulado. Abre la consola para ver el log.');
     });
 
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('Registro intentado.');
-        // Lógica de registro iría aquí
+        console.log('Intento de registro...');
+        // Por ejemplo: enviar datos a un API con fetch()
+        alert('Registro simulado. Abre la consola para ver el log.');
     });
 });

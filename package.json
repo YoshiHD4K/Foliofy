@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind:watch": "./node_modules/.bin/tailwindcss.cmd -i ./src/css/input.css -o ./dist/output.css --watch",
     "server:start": "node index.js",
-    "dev": "concurrently \"npm run tailwind:watch\" \"npm run server:start\""
+    "dev": "concurrently \"npm run tailwind:watch\" \"npm run server:start\"",
+    "build:css": "tailwindcss -i ./src/css/input.css -o ./dist/output.css",
+    "start": "serve ./src -l 5173"
   },
   "repository": {
     "type": "git",
