@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/css/LoginRegister.css';
+import { toast } from 'react-hot-toast';
+import { supabase, getSupabase } from '../lib/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 // Componente principal de Login y Registro
 const LoginRegister = () => {
@@ -7,16 +10,76 @@ const LoginRegister = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [keepLoggedIn, setKeepLoggedIn] = useState(false); // Checkbox para "Mantener sesión iniciada"
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // Si ya hay sesión (persistida o de la pestaña), redirige automáticamente al dashboard
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) {
+        navigate('/dashboard', { replace: true });
+      }
+    };
+    checkSession();
+    // Opcional: escucha cambios de auth (ej. si llega una sesión por deep-link)
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) navigate('/dashboard', { replace: true });
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      console.log('Iniciar sesión:', { email, password, keepLoggedIn });
-      // Lógica de inicio de sesión
-    } else {
-      console.log('Registrarse:', { email, password });
-      // Lógica de registro
+
+    if (!email || !password) {
+      toast.error('Completa tu correo y contraseña');
+      return;
     }
+
+    const client = getSupabase(keepLoggedIn);
+    if (isLogin) {
+      const tId = toast.loading('Ingresando...');
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      toast.dismiss(tId);
+      if (error) {
+        toast.error(error.message || 'No se pudo iniciar sesión');
+        return;
+      }
+  toast.success(`Bienvenido${data?.user?.email ? `, ${data.user.email}` : ''}`);
+  navigate('/dashboard');
+    } else {
+      const tId = toast.loading('Creando cuenta...');
+      const { data, error } = await client.auth.signUp({ email, password });
+      toast.dismiss(tId);
+      if (error) {
+        toast.error(error.message || 'No se pudo registrar');
+        return;
+      }
+      if (data?.user && !data.session) {
+        // Cuando se requiere confirmación de email, no hay sesión activa
+        toast.success('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
+      } else {
+        toast.success('Cuenta creada e iniciada sesión');
+        navigate('/dashboard');
+      }
+    }
+  };
+
+  const handleRecoverPassword = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast('Ingresa tu correo para recuperar la contraseña', { icon: '✉️' });
+      return;
+    }
+    const tId = toast.loading('Enviando email de recuperación...');
+  const redirectTo = `${window.location.origin}/reset`; // Página de restablecimiento en esta app
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    toast.dismiss(tId);
+    if (error) {
+      toast.error(error.message || 'No se pudo enviar el email de recuperación');
+      return;
+    }
+    toast.success('Si el correo existe, recibirás un enlace para restablecer tu contraseña.');
   };
 
   return (
@@ -66,7 +129,7 @@ const LoginRegister = () => {
                     <span className="checkmark"></span>
                     Mantener sesión iniciada
                   </label>
-                  <a href="#" className="forgot-password">
+                  <a href="#" className="forgot-password" onClick={handleRecoverPassword}>
                     ¿Olvidaste tu contraseña?
                   </a>
                 </>
