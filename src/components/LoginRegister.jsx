@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LoginRegister.css';
+import '../assets/css/LoginRegister.css';
 
 // Componente principal de Login y Registro
 const LoginRegister = () => {
