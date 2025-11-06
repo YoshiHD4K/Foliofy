@@ -2,46 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/css/inicio.css';
 import CrearBlogModal from '../components/CrearBlogModal';
+import Header from '../components/Header.jsx';
 
 export default function EditorBlog() {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
-  const headerBtnStyle = {
-    background: 'none',
-    border: 'none',
-    fontSize: '18px',
-    fontWeight: 600,
-    color: '#111827',
-    cursor: 'pointer',
-    padding: '8px 12px',
-    borderRadius: '6px',
-    fontFamily: 'inherit',
-  };
   return (
     <div className="main-wrapper">
-      {/* Header fijo con opciones */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: '#ffffff',
-          borderBottom: '1px solid #e5e7eb',
-          padding: '12px 16px',
-          display: 'flex',
-          gap: 24,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <button type="button" style={headerBtnStyle} onClick={() => navigate('/editor/inicio')}>Inicio</button>
-        <button type="button" style={headerBtnStyle} onClick={() => navigate('/editor/blog')}>Blog</button>
-        <button type="button" style={headerBtnStyle}>Proyectos</button>
-      </div>
-      <div style={{ height: 56 }} />
+      <Header />
       <div style={{ 
         position: 'fixed',
         top: '70px', 

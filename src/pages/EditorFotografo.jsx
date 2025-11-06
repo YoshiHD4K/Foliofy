@@ -1,18 +1,9 @@
 import React, { useEffect } from 'react';
 import '../assets/css/photographer.css';
+import Header from '../components/Header.jsx';
 
 export default function EditorFotografo() {
-  const headerBtnStyle = {
-    background: 'none',
-    border: 'none',
-    fontSize: '18px',
-    fontWeight: 600,
-    color: '#111827',
-    cursor: 'pointer',
-    padding: '8px 12px',
-    borderRadius: '6px',
-    fontFamily: 'inherit',
-  };
+  
 
   const defaultConfig = {
     background_color: '#0b0b0b',
@@ -73,20 +64,7 @@ export default function EditorFotografo() {
 
   return (
     <div className="photo-page">
-      {/* Header compartido */}
-      <div
-        style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-          background: '#ffffff', borderBottom: '1px solid #e5e7eb', padding: '12px 16px',
-          display: 'flex', gap: 24, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',
-        }}
-      >
-        <button type="button" style={headerBtnStyle}>Inicio</button>
-        <button type="button" style={headerBtnStyle}>Blog</button>
-        <button type="button" style={headerBtnStyle}>Proyectos</button>
-      </div>
-
-      <div style={{ height: 56 }} />
+      <Header />
 
       <section className="photo-card" aria-label="Carta de presentación del fotógrafo">
         <div className="photo-card__inner">
@@ -115,6 +93,22 @@ export default function EditorFotografo() {
         </div>
         </div>
       </section>
+      <button
+        type="button"
+        className="floating-edit-button"
+        aria-label="Personalizar página"
+        title="Personalizar página"
+        onClick={() => {
+          if (window?.elementSdk?.openEditor) {
+            try { window.elementSdk.openEditor(); } catch {}
+          }
+        }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
+          <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
+        </svg>
+      </button>
     </div>
   );
 }

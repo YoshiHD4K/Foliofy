@@ -40,3 +40,21 @@ export default supabase
 
 export const getSupabase = (keepLoggedIn = true) =>
   keepLoggedIn ? supabasePersistent : supabaseSession
+
+// Asegura que exista una fila básica en public.users con la PK = auth.uid()
+// No sobreescribe columnas existentes (solo envía el id), para no pisar "type" posteriormente
+export async function ensureUserRow(client, userId) {
+  try {
+    if (!client || !userId) return;
+    const { error } = await client
+      .from('users')
+      .upsert({ id: userId }, { onConflict: 'id' });
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.warn('[Supabase] ensureUserRow error:', error.message);
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('[Supabase] ensureUserRow exception:', e?.message || e);
+  }
+}

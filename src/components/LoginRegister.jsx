@@ -23,10 +23,21 @@ const LoginRegister = () => {
     checkSession();
     // Opcional: escucha cambios de auth (ej. si llega una sesión por deep-link)
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) navigate('/dashboard', { replace: true });
+      if (session) {
+        navigate('/dashboard', { replace: true });
+      }
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
+
+  const formatLoginError = (error) => {
+    const msg = (error?.message || '').toLowerCase();
+    if (msg.includes('invalid login credentials')) return 'Credenciales inválidas. Verifica tu correo y contraseña.';
+    if (msg.includes('email not confirmed') || msg.includes('not confirmed')) return 'Tu correo aún no está confirmado. Revisa tu bandeja de entrada.';
+    if (msg.includes('rate limit') || msg.includes('too many')) return 'Demasiados intentos. Inténtalo de nuevo en unos minutos.';
+    if (msg.includes('network') || msg.includes('fetch')) return 'Problema de conexión. Revisa tu internet e inténtalo nuevamente.';
+    return error?.message || 'No se pudo iniciar sesión';
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,11 +53,11 @@ const LoginRegister = () => {
       const { data, error } = await client.auth.signInWithPassword({ email, password });
       toast.dismiss(tId);
       if (error) {
-        toast.error(error.message || 'No se pudo iniciar sesión');
+        toast.error(formatLoginError(error));
         return;
       }
-  toast.success(`Bienvenido${data?.user?.email ? `, ${data.user.email}` : ''}`);
-  navigate('/dashboard');
+      toast.success(`Bienvenido${data?.user?.email ? `, ${data.user.email}` : ''}`);
+      navigate('/dashboard');
     } else {
       const tId = toast.loading('Creando cuenta...');
       const { data, error } = await client.auth.signUp({ email, password });
