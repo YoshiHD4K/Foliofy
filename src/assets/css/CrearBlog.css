@@ -1,0 +1,92 @@
+/* Estilos para el post publicado en la vista de Blog */
+.blog-post {
+	display: flex;
+	justify-content: center;
+	padding-top: 2rem;
+	padding-bottom: 4rem;
+}
+
+.posts-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.post-card {
+	width: 100%;
+	max-width: 1440px; /* más grande */
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+	padding: 32px; /* más espacio interno */
+}
+
+.post-cover {
+	width: 100%;
+	margin: -8px -8px 16px -8px; /* sangrado leve para dar amplitud */
+	border-radius: 12px;
+	overflow: hidden;
+}
+.post-cover img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.post-title {
+	font-size: 32px; /* título más grande */
+	line-height: 1.25;
+	margin: 0 0 16px 0;
+	color: #111827;
+}
+
+.post-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: #6b7280;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+
+.post-content {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px; /* más separación */
+}
+
+.post-block {
+	padding: 4px 0;
+}
+.post-block.block-image .post-media,
+.post-block.block-video .post-media {
+	border: 1px solid #e5e7eb;
+	background: #f9fafb;
+}
+.post-block.block-text .post-paragraph {
+	margin: 0;
+}
+.post-block.block-audio .post-audio {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+}
+
+.post-paragraph {
+	font-size: 18px; /* texto ligeramente mayor */
+	line-height: 1.75;
+	color: #374151;
+	white-space: pre-wrap;
+}
+
+.post-media {
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+}
+
+.post-audio {
+	width: 100%;
+}
