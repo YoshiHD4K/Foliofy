@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/css/inicio.css';
 import '../assets/css/CrearBlog.css';
 import CrearBlogModal from '../components/CrearBlogModal';
 import Header from '../components/Header.jsx';
+import EditableText from '../components/EditableText.jsx';
+import { loadContent, saveContent } from '../lib/contentStore.js';
 
 export default function EditorBlog() {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const [post, setPost] = useState(null);
+  const PAGE_TYPE = 'blog';
+  const [editing, setEditing] = useState(false);
+  const [content, setContent] = useState({});
   const headerBtnStyle = {
     background: 'none',
     border: 'none',
@@ -20,6 +25,12 @@ export default function EditorBlog() {
     borderRadius: '6px',
     fontFamily: 'inherit',
   };
+  useEffect(() => {
+    (async () => {
+      const { content: stored } = await loadContent(PAGE_TYPE);
+      if (stored && Object.keys(stored).length) setContent(stored);
+    })();
+  }, []);
   return (
     <div className="main-wrapper">
       <Header />
@@ -54,7 +65,7 @@ export default function EditorBlog() {
         {!post ? (
           <section className="hero" style={{ alignItems: 'flex-start', paddingTop: '3rem' }}>
             <div className="hero-content" style={{ maxWidth: 720 }}>
-              <h1 id="hero-title">Crea y personaliza tu blog</h1>
+              <EditableText id="title1" as="h1" editing={editing} value={content.title1 ?? 'Crea y personaliza tu blog'} onChange={(v) => setContent((c) => ({ ...c, title1: v }))} />
             </div>
           </section>
         ) : (
@@ -122,18 +133,25 @@ export default function EditorBlog() {
       <button
         type="button"
         className="floating-edit-button"
-        aria-label="Personalizar blog"
-        title="Personalizar blog"
-        onClick={() => {
-          if (window?.elementSdk?.openEditor) {
-            try { window.elementSdk.openEditor(); } catch {}
+        aria-label={editing ? 'Guardar cambios' : 'Editar contenidos'}
+        title={editing ? 'Guardar cambios' : 'Editar contenidos'}
+        onClick={async () => {
+          if (editing) {
+            try { await saveContent(PAGE_TYPE, content); } catch {}
           }
+          setEditing((e) => !e);
         }}
       >
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
-          <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
-        </svg>
+        {editing ? (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" fill="currentColor"/>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
+            <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
+          </svg>
+        )}
       </button>
 
       <CrearBlogModal

@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../assets/css/artist.css';
+import EditableText from '../components/EditableText.jsx';
+import EditableImage from '../components/EditableImage.jsx';
+import { loadContent, saveContent } from '../lib/contentStore.js';
 import Header from '../components/Header.jsx';
 
 export default function EditorArtista() {
+  const PAGE_TYPE = 'artist';
+  const [editing, setEditing] = useState(false);
+  const [content, setContent] = useState({});
   
 
   const defaultConfig = {
@@ -39,16 +45,16 @@ export default function EditorArtista() {
     root.style.setProperty('--artist-text-md', `${base * 1.1}px`);
     root.style.setProperty('--artist-text-base', `${base}px`);
 
-    const nameEl = document.getElementById('ar-name');
-    if (nameEl) nameEl.textContent = config.designer_name || defaultConfig.designer_name;
-    const tagEl = document.getElementById('ar-tag');
-    if (tagEl) tagEl.textContent = config.tagline || defaultConfig.tagline;
-    const h1 = document.getElementById('ar-title');
-    if (h1) h1.textContent = config.hero_title || defaultConfig.hero_title;
-    const p = document.getElementById('ar-desc');
-    if (p) p.textContent = config.hero_description || defaultConfig.hero_description;
-    const cta = document.getElementById('ar-cta');
-    if (cta) cta.textContent = config.cta_button || defaultConfig.cta_button;
+  const nameEl = document.getElementById('title1');
+  if (nameEl) nameEl.textContent = config.designer_name || defaultConfig.designer_name;
+  const tagEl = document.getElementById('tag1');
+  if (tagEl) tagEl.textContent = config.tagline || defaultConfig.tagline;
+  const h1 = document.getElementById('title2');
+  if (h1) h1.textContent = config.hero_title || defaultConfig.hero_title;
+  const p = document.getElementById('paragraph1');
+  if (p) p.textContent = config.hero_description || defaultConfig.hero_description;
+  const cta = document.getElementById('button1');
+  if (cta) cta.textContent = config.cta_button || defaultConfig.cta_button;
   };
 
   useEffect(() => {
@@ -58,6 +64,10 @@ export default function EditorArtista() {
       // aplicar config por defecto si no hay SDK
       onConfigChange(defaultConfig);
     }
+    (async () => {
+      const { content: stored } = await loadContent(PAGE_TYPE);
+      if (stored && Object.keys(stored).length) setContent(stored);
+    })();
   }, []);
 
   return (
@@ -65,7 +75,7 @@ export default function EditorArtista() {
       <Header />
 
       <section className="artist-hero artist-hero--center" aria-label="Presentación del artista">
-        <div className="artist-visual">
+          <div className="artist-visual">
           <svg viewBox="0 0 680 420" preserveAspectRatio="xMidYMid meet" className="palette-svg" aria-hidden="true">
             <defs>
               <linearGradient id="p1" x1="0" y1="0" x2="1" y2="1">
@@ -86,35 +96,54 @@ export default function EditorArtista() {
           </svg>
 
           <div className="artist-avatar">
-            <img id="ar-photo" src="https://picsum.photos/seed/artist-portrait/420/420" alt="Retrato del artista" loading="lazy" />
+            <EditableImage
+              id="image1"
+              src={content.image1 ?? 'https://picsum.photos/seed/artist-portrait/420/420'}
+              alt="Retrato del artista"
+              editing={editing}
+              onChange={(v) => setContent((c) => ({ ...c, image1: v }))}
+            />
           </div>
         </div>
 
         <div className="artist-intro">
-          <span className="artist-tag" id="ar-tag">{defaultConfig.tagline}</span>
-          <h1 className="artist-name" id="ar-name">{defaultConfig.designer_name}</h1>
-          <p className="artist-desc" id="ar-desc">{defaultConfig.hero_description}</p>
+          <span className="artist-tag">
+            <EditableText id="tag1" as="span" editing={editing} value={content.tag1 ?? defaultConfig.tagline} onChange={(v) => setContent((c) => ({ ...c, tag1: v }))} />
+          </span>
+          <EditableText id="title1" as="h1" className="artist-name" editing={editing} value={content.title1 ?? defaultConfig.designer_name} onChange={(v) => setContent((c) => ({ ...c, title1: v }))} />
+          <EditableText id="paragraph1" as="p" className="artist-desc" editing={editing} value={content.paragraph1 ?? defaultConfig.hero_description} onChange={(v) => setContent((c) => ({ ...c, paragraph1: v }))} />
           <div className="artist-actions">
-            <button id="ar-cta" className="artist-btn">{defaultConfig.cta_button}</button>
-            <button className="artist-btn artist-btn--ghost">Ver proyectos</button>
+            <button id="button1" className="artist-btn">
+              <EditableText id="button1" as="span" editing={editing} value={content.button1 ?? defaultConfig.cta_button} onChange={(v) => setContent((c) => ({ ...c, button1: v }))} />
+            </button>
+            <button id="button2" className="artist-btn artist-btn--ghost">
+              <EditableText id="button2" as="span" editing={editing} value={content.button2 ?? 'Ver proyectos'} onChange={(v) => setContent((c) => ({ ...c, button2: v }))} />
+            </button>
           </div>
         </div>
       </section>
       <button
         type="button"
         className="floating-edit-button"
-        aria-label="Personalizar página"
-        title="Personalizar página"
-        onClick={() => {
-          if (window?.elementSdk?.openEditor) {
-            try { window.elementSdk.openEditor(); } catch {}
+        aria-label={editing ? 'Guardar cambios' : 'Editar contenidos'}
+        title={editing ? 'Guardar cambios' : 'Editar contenidos'}
+        onClick={async () => {
+          if (editing) {
+            try { await saveContent(PAGE_TYPE, content); } catch {}
           }
+          setEditing((e) => !e);
         }}
       >
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
-          <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
-        </svg>
+        {editing ? (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" fill="currentColor"/>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" fill="currentColor"/>
+            <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
+          </svg>
+        )}
       </button>
     </div>
   );
