@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/css/inicio.css';
+import '../assets/css/CrearBlog.css';
 import CrearBlogModal from '../components/CrearBlogModal';
 
 export default function EditorBlog() {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [post, setPost] = useState(null);
   const headerBtnStyle = {
     background: 'none',
     border: 'none',
@@ -69,12 +71,73 @@ export default function EditorBlog() {
           Crear Publicación
         </button>
       </div>
-      <div className="container" style={{ flex: 1, padding: '0 5%' }}>
-        <section className="hero" style={{ alignItems: 'flex-start', paddingTop: '3rem' }}>
-          <div className="hero-content" style={{ maxWidth: 720 }}>
-            <h1 id="hero-title">Crea y personaliza tu blog</h1>
+  <div className="container" style={{ flex: 1, padding: '0 2%' }}>
+        {!post ? (
+          <section className="hero" style={{ alignItems: 'flex-start', paddingTop: '3rem' }}>
+            <div className="hero-content" style={{ maxWidth: 720 }}>
+              <h1 id="hero-title">Crea y personaliza tu blog</h1>
+            </div>
+          </section>
+        ) : (
+          <div className="posts-container">
+            <section className="blog-post">
+              <article className="post-card">
+              {/* Portada: primera imagen si existe */}
+              {(() => {
+                const cover = post.content?.find((b) => b.type === 'image');
+                return cover ? (
+                  <div className="post-cover">
+                    <img src={cover.value} alt={cover.file?.name || 'portada'} />
+                  </div>
+                ) : null;
+              })()}
+
+              {/* Título */}
+              {post.title && <h1 className="post-title">{post.title}</h1>}
+
+              {/* Meta info */}
+              <div className="post-meta">
+                <time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString()}</time>
+              </div>
+
+              {/* Cuerpo */}
+              <div className="post-content">
+                {post.content?.map((block, idx) => {
+                  if (block.type === 'text') {
+                    return (
+                      <div key={idx} className="post-block block-text">
+                        <p className="post-paragraph">{block.value}</p>
+                      </div>
+                    );
+                  }
+                  if (block.type === 'image') {
+                    return (
+                      <div key={idx} className="post-block block-image">
+                        <img src={block.value} alt={block.file?.name || `imagen-${idx}`} className="post-media" />
+                      </div>
+                    );
+                  }
+                  if (block.type === 'video') {
+                    return (
+                      <div key={idx} className="post-block block-video">
+                        <video src={block.value} controls className="post-media" />
+                      </div>
+                    );
+                  }
+                  if (block.type === 'audio') {
+                    return (
+                      <div key={idx} className="post-block block-audio">
+                        <audio src={block.value} controls className="post-audio" />
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+              </article>
+            </section>
           </div>
-        </section>
+        )}
       </div>
 
       <button
@@ -94,7 +157,13 @@ export default function EditorBlog() {
         </svg>
       </button>
 
-      <CrearBlogModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <CrearBlogModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onPublish={(payload) => {
+          setPost(payload);
+        }}
+      />
     </div>
   );
 }
